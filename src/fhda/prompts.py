@@ -168,25 +168,28 @@ Remember, the final notebook should contain all necessary artifacts (plots, tabl
 """
 SUBMIT_ANSWER_SINGLE = """
 [Use the submit_answer tool to submit your final answer as a single string]
+IMPORTANT: Wrap your answer in XML tags <answer> </answer>
 Example output:
 ```
-submit_answer("CD94") or submit_answer("-1.23")
+submit_answer("<answer>CD94</answer>") or submit_answer("<answer>-1.23</answer>")
 ```
 Remember, the final notebook should contain all necessary artifacts (plots, tables, print outputs) to solve the task provided.
 """
 SUBMIT_ANSWER_OPEN = """
 [Use the submit_answer tool to submit your final answer as a single string with your short answer]
+IMPORTANT: Wrap your answer in XML tags <answer> </answer>
 Example output:
 ```
-submit_answer("Your concise answer to the question")
+submit_answer("<answer>Your concise answer to the question</answer>")
 ```
 Remember, the final notebook should contain all necessary artifacts (plots, tables, print outputs) to solve the task provided.
 """
 SUBMIT_ANSWER_MCQ = """
 [Use the submit_answer tool to submit your final answer as a single string with the letter choice]
+IMPORTANT: Wrap your answer in XML tags <answer> </answer>
 Example output:
 ```
-submit_answer("A") or submit_answer("B") or submit_answer("C") or submit_answer("D")
+submit_answer("<answer>A</answer>") or submit_answer("<answer>B</answer>") or submit_answer("<answer>C</answer>") or submit_answer("<answer>D</answer>")
 ```
 Remember, the final notebook should contain all necessary artifacts (plots, tables, print outputs) to solve the task provided.
 """

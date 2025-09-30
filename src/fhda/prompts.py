@@ -7,20 +7,20 @@ validate whether the data provided supports the hypothesis or not.
 
 CAPSULE_SYSTEM_PROMPT_MCQ = """
 You are an expert bioinformatician and seasoned biological data scientist.
-Your task is to create a comprehensive Jupyter notebook named 'notebook.ipynb' that analyzes data to answer a series of Multiple Choice Questions (MCQs).
-The notebook should contain all necessary artifacts (plots, tables, print outputs) to fully answer these questions, structured in a way that another model could use to derive the answers.
+Your task is to create a comprehensive Jupyter notebook named 'notebook.ipynb' that analyzes data to answer a Multiple Choice Question (MCQ).
+The notebook should contain all necessary artifacts (plots, tables, print outputs) to fully answer this question, structured in a way that another model could use to derive the answer.
 """
 
 CAPSULE_SYSTEM_PROMPT_OPEN = """
 You are an expert bioinformatician and seasoned biological data scientist.
-Your task is to create a comprehensive Jupyter notebook named 'notebook.ipynb' that analyzes data to answer a series of open-ended questions.
-The notebook should contain all necessary artifacts (plots, tables, print outputs) to fully answer these questions, structured in a way that another model could use to derive the answers.
+Your task is to create a comprehensive Jupyter notebook named 'notebook.ipynb' that analyzes data to answer an open-ended question.
+The notebook should contain all necessary artifacts (plots, tables, print outputs) to fully answer this question, structured in a way that another model could use to derive the answer.
 """
 
 CAPSULE_SYSTEM_PROMPT_QUERY = """
 You are an expert bioinformatician and seasoned biological data scientist.
 Your task is to create a comprehensive Jupyter notebook named 'notebook.ipynb' that analyzes data to answer a user query.
-The notebook should contain all necessary artifacts (plots, tables, print outputs) to fully answer these questions.
+The notebook should contain all necessary artifacts (plots, tables, print outputs) to fully answer this question.
 Take your time to think through the question and the data before writing any code, explore the data rigorously and defend your conclusions rigorously.
 """
 
@@ -168,35 +168,29 @@ Remember, the final notebook should contain all necessary artifacts (plots, tabl
 """
 SUBMIT_ANSWER_SINGLE = """
 [Use the submit_answer tool to submit your final answer as a single string]
+IMPORTANT: Wrap your answer in XML tags <answer> </answer>
 Example output:
 ```
-submit_answer("CD94") or submit_answer("-1.23")
+submit_answer("<answer>CD94</answer>") or submit_answer("<answer>-1.23</answer>")
 ```
 Remember, the final notebook should contain all necessary artifacts (plots, tables, print outputs) to solve the task provided.
 """
 SUBMIT_ANSWER_OPEN = """
-[Use the submit_answer tool to submit your final answer as a jsondictionary with keys as the question number and values as a short answer]
+[Use the submit_answer tool to submit your final answer as a single string with your short answer]
+IMPORTANT: Wrap your answer in XML tags <answer> </answer>
 Example output:
 ```
-submit_answer({{
-    "q1": "Short answer to question 1",
-    "q2": "Short answer to question 2",
-    "q3": "Short answer to question 3",
-    "q4": "Short answer to question 4"
-}})
+submit_answer("<answer>Your concise answer to the question</answer>")
 ```
 Remember, the final notebook should contain all necessary artifacts (plots, tables, print outputs) to solve the task provided.
 """
 SUBMIT_ANSWER_MCQ = """
-[Use the submit_answer tool to submit your final answer as a json dictionary with keys as the question number and values as the answer]
+[Use the submit_answer tool to submit your final answer as a single string with the letter choice]
+IMPORTANT: Wrap your answer in XML tags <answer> </answer>
 Example output:
 ```
-submit_answer({{
-    "q1": "A",
-    "q2": "B",
-    "q3": "C",
-    "q4": "D"
-}})
+submit_answer("<answer>A</answer>") or submit_answer("<answer>B</answer>") or submit_answer("<answer>C</answer>") or submit_answer("<answer>D</answer>")
+```
 Remember, the final notebook should contain all necessary artifacts (plots, tables, print outputs) to solve the task provided.
 """
 
@@ -215,10 +209,10 @@ Here is the hypothesis you need to address:
 """
 # MCQ
 MCQ_PROMPT_TEMPLATE = f"""
-Here are the questions you need to address:
-<questions>
-{{questions}}
-</questions>
+Here is the question you need to address:
+<question>
+{{question}}
+</question>
 
 {CHAIN_OF_THOUGHT_AGNOSTIC}
 {SUBMIT_ANSWER_MCQ}
@@ -227,11 +221,11 @@ Here are the questions you need to address:
 """
 # Open answer
 OPEN_PROMPT_TEMPLATE = f"""
-Here are the questions you need to address:
+Here is the question you need to address:
 
-<questions>
-{{questions}}
-</questions>
+<question>
+{{question}}
+</question>
 
 {CHAIN_OF_THOUGHT_AGNOSTIC}
 {SUBMIT_ANSWER_OPEN}

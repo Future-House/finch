@@ -1,5 +1,4 @@
 import hashlib
-import json
 import logging
 import shutil
 from typing import Any, cast
@@ -10,11 +9,10 @@ from aviary.core import (
     Message,
     Messages,
     Tool,
-    eval_answer,
 )
 
 from .notebook_env import NBEnvironment
-from .utils import NBLanguage, MultipleChoiceQuestion, nb_to_html
+from .utils import NBLanguage, nb_to_html
 from . import prompts
 from . import config as cfg
 
@@ -35,14 +33,12 @@ class DataAnalysisEnv(NBEnvironment):
         correct_reward: float = 1.0,
         eval_mode: EvalAnswerMode,
         metadata: dict[str, Any] | None = None,  # used for NBEvalExpt
-        mcqs: list[MultipleChoiceQuestion] | None = None,
         **kwargs,
     ):
         super().__init__(**kwargs)
 
         self.problem_id = problem_id
         self.problem = problem
-        self.mcqs = mcqs
         self.answer = answer
         self.eval_mode = eval_mode
         self.correct_reward = correct_reward
@@ -74,80 +70,13 @@ class DataAnalysisEnv(NBEnvironment):
         Args:
             answer: The answer to the problem
         """
-        # TODO: support various eval modes
         self.state.answer = answer
         self.state.done = True
         logger.info("Submitting answer and closing environment")
         await self.close()
-        correct = False
         logger.info("Answer: %s", answer)
 
-        if self.eval_mode is None:
-            return CORRECT_MSG
-
-        if isinstance(self.answer, int):
-            try:
-                answer = int(answer)  # type: ignore[arg-type]
-            except ValueError:
-                pass
-            else:
-                correct = answer == self.answer
-
-        elif isinstance(self.answer, float):
-            try:
-                answer = float(answer)  # type: ignore[arg-type]
-            except ValueError:
-                pass
-            else:
-                correct = abs(answer - self.answer) < 1e-4 * self.answer
-
-        elif isinstance(self.answer, str):
-            correct = bool(
-                await eval_answer(
-                    proposed=str(answer),
-                    correct=str(self.answer),
-                    question=self.problem,
-                    eval_mode=self.eval_mode,
-                )
-            )
-        elif isinstance(self.answer, dict):  # This is for mcqs and open questions
-            # Check if answer is a json string
-            if isinstance(answer, str):  # type: ignore[unreachable]
-                # Process json into dictionary
-                try:
-                    processed_answer = json.loads(answer)
-                except json.JSONDecodeError:
-                    return INCORRECT_MSG
-            else:
-                processed_answer = answer if isinstance(answer, dict) else {}
-
-            # Loop through each question and answer
-            for question_id, agent_answer in processed_answer.items():
-                try:
-                    ideal_answer = self.answer[question_id]
-                    question = next(
-                        q
-                        for q in self.mcqs
-                        if q.question_id.lower() == question_id.lower()
-                    )
-                    correct = bool(
-                        await eval_answer(
-                            proposed=str(agent_answer),
-                            correct=str(ideal_answer),
-                            question=question,
-                            eval_mode=self.eval_mode,
-                        )
-                    )
-                    self.question_rewards[question_id] = correct
-                except KeyError:
-                    self.question_rewards[question_id] = 0
-                average_reward = sum(self.question_rewards.values()) / len(self.mcqs)
-            correct = round(average_reward) == 1.0
-
-        if correct:
-            self.state.total_reward += self.correct_reward
-            return CORRECT_MSG
-        return INCORRECT_MSG
+        return f"Submitted answer: {answer}"
 
     @classmethod
     def from_task(

@@ -1,6 +1,6 @@
-# Data Analysis Crow: A Jupyter Notebook Agent
+# Finch: A Jupyter Notebook Agent
 
-Data Analysis Crow is an AI agent framework designed to perform complex scientific data analysis tasks by iteratively working through Jupyter notebooks. This agent takes in datasets and prompts, then systematically explores, analyzes, and interprets the data to provide comprehensive answers and insights.
+Finch is an AI agent framework designed to perform complex scientific data analysis tasks by iteratively working through Jupyter notebooks. This agent takes in datasets and prompts, then systematically explores, analyzes, and interprets the data to provide comprehensive answers and insights.
 
 The agent was used to produce the trajectories for the [BixBench benchmark](https://github.com/Future-House/bixbench).
 
@@ -71,7 +71,7 @@ Coming soon!
 
 ## BixBench Benchmark
 
-Data Analysis Crow was used to produce the trajectories for the [BixBench benchmark](https://github.com/Future-House/bixbench), which evaluates AI agents on real-world bioinformatics tasks.
+Finch was used to produce the trajectories for the [BixBench benchmark](https://github.com/Future-House/bixbench), which evaluates AI agents on real-world bioinformatics tasks.
 
 BixBench tests AI agents' ability to:
 

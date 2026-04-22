@@ -23,8 +23,8 @@ The agent was used to produce the trajectories for the [BixBench benchmark](http
 
 ```bash
 # Clone the repository
-git clone https://github.com/Future-House/data-analysis-crow.git
-cd data-analysis-crow
+git clone https://github.com/Future-House/finch.git
+cd finch
 
 # Install dependencies
 pip install -e .
@@ -46,7 +46,7 @@ ANTHROPIC_API_KEY = "your-anthropic-api-key"
 
 ## Using the Agent
 
-The agent works by taking a dataset and a prompt, then iteratively building a Jupyter notebook to answer the question. Visit the [tutorial](https://github.com/Future-House/data-analysis-crow/blob/main/tutorial/example.ipynb) for a simple step-by-step guide on how to use the agent.
+The agent works by taking a dataset and a prompt, then iteratively building a Jupyter notebook to answer the question. Visit the [tutorial](https://github.com/Future-House/finch/blob/main/tutorial/example.ipynb) for a simple step-by-step guide on how to use the agent.
 
 ## Advanced Usage
 For advanced evaluations, you can configure `server.yaml` and `runner.yaml` in the `src/scripts/bixbench_evaluation` directory and then run the evaluation script:
@@ -62,7 +62,7 @@ This will:
 
 Results are saved in the output directory specified in your configuration file.
 
-Note that the dataset and environment configuration must be updated appropriately. For an example, see [dataset.py](https://github.com/Future-House/data-analysis-crow/blob/main/src/fhda/dataset.py) which includes the capsule dataset configuration used for the BixBench benchmark.
+Note that the dataset and environment configuration must be updated appropriately. For an example, see [dataset.py](https://github.com/Future-House/finch/blob/main/src/fhda/dataset.py) which includes the capsule dataset configuration used for the BixBench benchmark.
 
 We also recommend visiting the BixBench repository where we share a full evaluation harness for the agent.
 
